@@ -1,13 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../../Providers/AuthProviders';
+import Swal from 'sweetalert2'
+
+import { RiShoppingCart2Line } from "react-icons/ri";
 
 const Navbar = () => {
+
+    const { user, logOutUser } = useContext(AuthContext);
+
+
+    const handleLogOut = () => {
+        logOutUser()
+            .then(() => {
+
+
+            })
+            .catch(error => console.log(error))
+
+
+    }
 
     const navOption = <>
 
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/menu'>Menu</Link></li>
         <li><Link to='/Order/salad'>Your Order</Link></li>
+        <li><Link to='/signup'>Signup</Link></li>
+        <li><Link to='/secret'>secret</Link></li>
+        <li><Link to='/'>
+
+            <button class="btn">
+                <RiShoppingCart2Line className='text-2xl' />
+
+                <div class="badge badge-secondary">+0</div>
+            </button>
+
+        </Link></li>
+
+        {
+            user ? <>
+                {/* <span>{user&&user.displayName}</span> */}
+
+
+                <button onClick={handleLogOut} className=" btn-ghost">SingOut</button>
+            </>
+                :
+                <li><Link to='/login'>Login</Link></li>
+        }
     </>
 
     return (
