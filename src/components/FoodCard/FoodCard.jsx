@@ -1,26 +1,46 @@
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiodSecure";
+import useCart from "../../hooks/useCart";
 
 const FoodCard = ({ item }) => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
-    const {_id,  name, image, price, recipe } = item;
+    const axiosSecure = useAxiosSecure();
+    const [, refetch] =useCart()
+    const { _id, name, image, price, recipe } = item;
 
-    const handleAddToCart = (food) => {
+    const handleAddToCart = () => {
 
         if (user && user.email) {
-            // todo: send cart item to the database
+            // send cart item to the database
 
-            console.log(user.email, food);
+            console.log(user.email);
             const cartItem = {
                 menuId: _id,
-                email:user.email,
+                email: user.email,
                 name,
                 image,
                 price
             }
+
+            axiosSecure.post(`/carts`, cartItem)
+                .then(res => {
+                    console.log(res.data);
+                    if (res.data.insertedId) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: `${name} added to your cart`,
+                            showConfirmButton: false,
+                            timer: 2500
+                        });
+                        //refetch
+                        refetch()
+                    }
+                })
 
         } else {
             Swal.fire({
@@ -52,7 +72,7 @@ const FoodCard = ({ item }) => {
                 <p>{recipe}</p>
                 <div className="card-actions justify-end">
                     <button
-                        onClick={() => handleAddToCart(item)}
+                        onClick={handleAddToCart}
                         className="btn btn-primary">Add to cart</button>
                 </div>
             </div>

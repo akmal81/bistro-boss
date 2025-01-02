@@ -4,12 +4,15 @@ import { AuthContext } from '../../../Providers/AuthProviders';
 import Swal from 'sweetalert2'
 
 import { RiShoppingCart2Line } from "react-icons/ri";
+import useCart from '../../../hooks/useCart';
 
 const Navbar = () => {
+    const [cart] = useCart()
+    console.log(cart)
 
     const { user, logOutUser } = useContext(AuthContext);
 
-
+    
     const handleLogOut = () => {
         logOutUser()
             .then(() => {
@@ -28,14 +31,11 @@ const Navbar = () => {
         <li><Link to='/Order/salad'>Your Order</Link></li>
         <li><Link to='/signup'>Signup</Link></li>
         <li><Link to='/secret'>secret</Link></li>
-        <li><Link to='/'>
-
+        <li><Link to='/dashboard/cart'>
             <button class="btn">
                 <RiShoppingCart2Line className='text-2xl' />
-
-                <div class="badge badge-secondary">+0</div>
+                <div class="badge badge-secondary">{cart.length}</div>
             </button>
-
         </Link></li>
 
         {
