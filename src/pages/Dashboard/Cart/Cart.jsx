@@ -9,7 +9,7 @@ const Cart = () => {
     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
 
     const handleDelete = (id) => {
-
+    
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -62,7 +62,6 @@ const Cart = () => {
                         {
                             cart.map((item, idx) =>
                                 <tr key={item._id}>
-
                                     <th>
                                         {idx + 1}
                                     </th>
@@ -75,7 +74,6 @@ const Cart = () => {
                                                         alt="Avatar Tailwind CSS Component" />
                                                 </div>
                                             </div>
-
                                         </div>
                                     </td>
                                     <td>
@@ -92,11 +90,7 @@ const Cart = () => {
                                 </tr>
                             )
                         }
-
-
                     </tbody>
-
-
                 </table>
             </div>
         </div>

@@ -9,48 +9,73 @@ import PrivateRoute from "./PrivateRoute";
 import Secret from "../pages/Shared/Secret/Secret";
 import Dashboard from "../Layout/Dashboard";
 import Cart from "../pages/Dashboard/Cart/Cart";
+import AllUsers from "../pages/Dashboard/AllUsers/AllUsers";
+import AminRoute from "./AminRoute";
+import AddItems from "../pages/Dashboard/AddItems/AddItems";
+import ManageItems from "../pages/Dashboard/ManageItems.jsx/ManageItems";
+import UpdateItem from "../pages/Dashboard/UpdateItem/UpdateItem";
 
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <Main/>,
+        element: <Main />,
         children: [
             {
                 path: '/',
-                element:<Home/>
+                element: <Home />
             },
             {
-                path:'/menu',
-                element:<Menu/>
+                path: '/menu',
+                element: <Menu />
             },
             {
-                path:'/order/:category',
-                element:<Order/>
+                path: '/order/:category',
+                element: <Order />
             },
             {
-                path:'/login',
-                element: <Login/>
+                path: '/login',
+                element: <Login />
             },
             {
-                path:'/signup',
-                element: <SignUp/>
+                path: '/signup',
+                element: <SignUp />
             },
             {
-                path:'/secret',
-                element:<PrivateRoute>
-                    <Secret/>
+                path: '/secret',
+                element: <PrivateRoute>
+                    <Secret />
                 </PrivateRoute>
             }
         ]
     },
     {
-        path:'/dashboard',
-        element:<Dashboard/>,
-        children:[
+        path: '/dashboard',
+        element: <PrivateRoute><Dashboard /></PrivateRoute>,
+        children: [
             {
-               
-                path:'cart',
-                element:<Cart/>
+
+                path: 'cart',
+                element: <Cart />
+            },
+            // admin routes
+            {
+                path: 'addItems',
+                element: <AminRoute><AddItems></AddItems></AminRoute>
+            },
+            {
+                path: 'manageItems',
+                element: <AminRoute><ManageItems></ManageItems></AminRoute>
+            },
+            {
+                path: 'updateItem/:id',
+                element: <AminRoute> <UpdateItem />  </AminRoute>,
+                loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/menu/${params.id}`)
+
+
+            },
+            {
+                path: 'users',
+                element: <AllUsers />
             }
         ]
     }

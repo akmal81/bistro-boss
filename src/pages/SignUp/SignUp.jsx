@@ -4,12 +4,13 @@ import { AuthContext } from '../../Providers/AuthProviders';
 import { useForm } from 'react-hook-form';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
 
 const SignUp = () => {
 
-    // const captchaRef = useRef(null);
-    // const [disable, setDisable] = useState(true);
-    const { createUser, updateUserProfile } = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic()
+    const { createUser, updateUserProfile} = useContext(AuthContext);
     const navigate = useNavigate();
 
 
@@ -30,14 +31,27 @@ const SignUp = () => {
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
                         console.log('user profile info updated');
+                        // post user info in db
+                        const useInfo = {
+                            name: data.name,
+                            email: data.email
+                        }
 
-                        Swal.fire({
-                            position: "top-end",
-                            icon: "success",
-                            title: "Your Account created successfully!!",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                        axiosPublic.post('/users', useInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    
+                                    Swal.fire({
+                                        position: "top-end",
+                                        icon: "success",
+                                        title: "Your Account created successfully!!",
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            })
+
+
                         navigate('/')
 
                     })
@@ -112,9 +126,8 @@ const SignUp = () => {
                                 <input type='submit' className="btn btn-primary" value='Sing Up' />
                             </div>
                         </form>
-
-
                         <p className='text-center pb-6'><small>already have an account?</small><Link to='/login'> Login</Link></p>
+                                    <SocialLogin/>
                     </div>
                 </div>
             </div>
