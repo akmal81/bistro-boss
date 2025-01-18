@@ -14,6 +14,10 @@ import AminRoute from "./AminRoute";
 import AddItems from "../pages/Dashboard/AddItems/AddItems";
 import ManageItems from "../pages/Dashboard/ManageItems.jsx/ManageItems";
 import UpdateItem from "../pages/Dashboard/UpdateItem/UpdateItem";
+import Payment from "../pages/Payment/Payment";
+import PaymentHistory from "../pages/Dashboard/PaymentHistory/PaymentHistory";
+import UserHome from "../pages/Dashboard/UserHome/UserHome";
+import AdminHome from "../pages/Dashboard/AdminHome/AdminHome";
 
 export const router = createBrowserRouter([
     {
@@ -53,11 +57,30 @@ export const router = createBrowserRouter([
         element: <PrivateRoute><Dashboard /></PrivateRoute>,
         children: [
             {
+                path: 'userHome',
+                element: <UserHome />
 
+            },
+            {
+                path: 'adminHome',
+                element: <AminRoute>
+                    <AdminHome />
+                </AminRoute>
+
+            },
+            {
                 path: 'cart',
                 element: <Cart />
             },
-            // admin routes
+            {
+                path: 'payment',
+                element: <Payment />
+            },
+            {
+                path: 'paymentHistory',
+                element: <PaymentHistory></PaymentHistory>
+            },
+            //only admin routes
             {
                 path: 'addItems',
                 element: <AminRoute><AddItems></AddItems></AminRoute>
@@ -69,9 +92,7 @@ export const router = createBrowserRouter([
             {
                 path: 'updateItem/:id',
                 element: <AminRoute> <UpdateItem />  </AminRoute>,
-                loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/menu/${params.id}`)
-
-
+                loader: ({ params }) => fetch(`${import.meta.env.VITE_API_URL}/menu/${params.id}`)
             },
             {
                 path: 'users',

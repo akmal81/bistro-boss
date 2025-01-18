@@ -7,9 +7,9 @@ import useAuth from '../hooks/useAuth';
 const Dashboard = () => {
 
     const [isAdmin] = useAdmin();
-    const {user} = useAuth;
+    const { user } = useAuth();
     console.log(user);
-    
+
     // const isAdmin = true;
 
     return (
@@ -56,21 +56,21 @@ const Dashboard = () => {
                             <>
 
                                 <li>
-                                    <NavLink to='/dashboard/adminHome'>
+                                    <NavLink to='/dashboard/userHome'>
                                         <FaHome />
-                                        Admin Home
+                                        User Home
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink to='/dashboard/cart'>
                                         <FaUtensils />
-                                        Add Items
+                                        Cart
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/dashboard/reservation'>
+                                    <NavLink to='/dashboard/history'>
                                         <FaCalendar />
-                                        Reservation
+                                        Payment History
                                     </NavLink>
                                 </li>
                                 <li>
@@ -80,9 +80,9 @@ const Dashboard = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/dashboard/bookings'>
+                                    <NavLink to='/dashboard/paymentHistory'>
                                         <FaList />
-                                        My Bookings
+                                        Payment real history
                                     </NavLink>
                                 </li>
 

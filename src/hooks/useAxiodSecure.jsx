@@ -7,6 +7,8 @@ import { AuthContext } from "../Providers/AuthProviders";
 const axiosSecure = axios.create({
     baseURL: 'http://localhost:5000'
 })
+
+
 const useAxiosSecure = () => {
     const navigate = useNavigate();
     const { logOutUser } = useContext(AuthContext);
@@ -32,7 +34,7 @@ const useAxiosSecure = () => {
             await logOutUser();
             navigate('/login')
     }
-        return Promise.reject.error
+        return Promise.reject(error)
     }
     )
 
